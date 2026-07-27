@@ -1,0 +1,56 @@
+{
+  "logo": "/images/logo.png",
+  "team": [
+    {
+      "name": "Anish Pantha",
+      "url": "/images/anish.jpg",
+      "hint": "professional portrait"
+    },
+    {
+      "name": "Bishalya Gautam",
+      "url": "/images/bishalya.jpg",
+      "hint": "professional portrait tech"
+    }
+  ],
+  "hero": {
+    "templates": [
+      { "id": 1, "url": "/images/templates/template-1.png", "hint": "email template sleek" },
+      { "id": 2, "url": "/images/templates/template-2.png", "hint": "email template product" },
+      { "id": 3, "url": "/images/templates/template-3.png", "hint": "email template digest" },
+      { "id": 4, "url": "/images/templates/template-4.png", "hint": "email template sale" },
+      { "id": 5, "url": "/images/templates/template-5.png", "hint": "email template greeting" },
+      { "id": 6, "url": "/images/templates/template-6.png", "hint": "email template webinar" }
+    ]
+  },
+  "caseStudies": [
+    {
+      "id": 1,
+      "banner": "/images/case-studies/banner-1.png",
+      "email": "/images/case-studies/email-1.png",
+      "hint": "ecommerce store"
+    },
+    {
+      "id": 2,
+      "banner": "/images/case-studies/banner-2.png",
+      "email": "/images/case-studies/email-2.png",
+      "hint": "saas dashboard"
+    }
+  ],
+  "blog": [
+    {
+      "id": 4,
+      "url": "/images/blog/blog-1.png",
+      "hint": "marketing analysis"
+    },
+    {
+      "id": 5,
+      "url": "/images/blog/blog-2.png",
+      "hint": "business growth"
+    },
+    {
+      "id": 6,
+      "url": "/images/blog/blog-3.png",
+      "hint": "agency partnership"
+    }
+  ]
+}
