@@ -70,15 +70,15 @@
   ],
   "testimonial": [
     {
-      "url": "/images/testimonials/sarah.webp",
+      "url": "/",
       "hint": "man portrait"
     },
     {
-      "url": "/images/testimonials/cheng.webp",
+      "url": "",
       "hint": "woman portrait"
     },
     {
-      "url": "/images/testimonials/mathew.webp",
+      "url": "",
       "hint": "business person"
     }
   ]

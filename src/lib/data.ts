@@ -125,21 +125,21 @@ export const testimonials: Testimonial[] = [
     quote: "FuelMails transformed our email strategy. The analytics are a game-changer, and our engagement has skyrocketed.",
     name: 'Sarah Johnson',
     title: 'CMO, TechSolutions Inc.',
-    avatarUrl: "/images/testimonials/sarah.webp",
+    avatarUrl: "/http:abc",
   },
   {
     id: 2,
     quote: "The template designer is so intuitive and powerful. We're creating beautiful, on-brand emails in minutes.",
     name: 'David Chen',
     title: 'Founder, The Design Hub',
-    avatarUrl: "/images/testimonials/cheng.webp",
+    avatarUrl: "/http:abc",
   },
   {
     id: 3,
     quote: "Working with FuelMails felt like adding a high-octane growth team to our company overnight. Highly recommended.",
     name: 'Mark Thompson',
     title: 'Director of Growth, E-com Scale',
-    avatarUrl: '/images/testimonials/mathew.webp',
+    avatarUrl: 'http:abc',
   },
 ];
 
