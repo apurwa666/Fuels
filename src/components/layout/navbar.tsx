@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -46,6 +45,7 @@ export function Navbar() {
     }
   })
 
+  // Ensure isVisible is handled safely for hydration
   const isVisible = !mounted || !hidden || isHeaderHovered || mobileMenuOpen
 
   const toggleMobileSubMenu = (label: string) => {

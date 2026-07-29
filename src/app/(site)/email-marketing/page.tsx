@@ -99,7 +99,7 @@ export default function EmailMarketingPage() {
 
             <MotionWrapper
               variants={FADE_IN_UP}
-              className="relative hidden md:flex items-center justify-center mt-12 lg:mt-0"
+              className="relative hidden md:flex items-center justify-center mt-6 sm:mt-8 lg:mt-0"
             >
               <div className="relative w-full max-w-[750px] aspect-square flex items-center justify-center">
                 <motion.div 

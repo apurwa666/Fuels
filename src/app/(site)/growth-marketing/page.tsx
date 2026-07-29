@@ -280,7 +280,7 @@ export default function GrowthMarketingPage() {
                       { step: 3, title: "Pipeline Acceleration", desc: "We nurture leads until they are ready to close with dedicated SDR support." }
                     ].map((m) => (
                       <div key={m.step} className="flex flex-col sm:flex-row gap-5 sm:gap-6 p-6 sm:p-8 bg-card border border-white/5 rounded-3xl shadow-2xl transition-all hover:border-accent/30 group">
-                        <div className="w-10 h-10 sm:w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center text-accent font-black text-lg sm:text-xl flex-shrink-0 group-hover:bg-accent group-hover:text-accent-foreground transition-all">
+                        <div className="w-10 h-12 sm:w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center text-accent font-black text-lg sm:text-xl flex-shrink-0 group-hover:bg-accent group-hover:text-accent-foreground transition-all">
                           {m.step}
                         </div>
                         <div>

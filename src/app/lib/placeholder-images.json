@@ -38,6 +38,21 @@
   ],
   "blog": [
     {
+      "id": 1,
+      "url": "/images/blog/blog-4.jpeg",
+      "hint": "growth strategy"
+    },
+    {
+      "id": 2,
+      "url": "/images/blog/blog-5.png",
+      "hint": "retention analytics"
+    },
+    {
+      "id": 3,
+      "url": "/images/blog/blog-6.png",
+      "hint": "experiment lab"
+    },
+    {
       "id": 4,
       "url": "/images/blog/blog-1.png",
       "hint": "marketing analysis"
@@ -52,5 +67,20 @@
       "url": "/images/blog/blog-3.png",
       "hint": "agency partnership"
     }
+  ],
+  "testimonial": [
+    {
+      "url": "/images/testimonials/sarah.webp",
+      "hint": "man portrait"
+    },
+    {
+      "url": "/images/testimonials/cheng.webp",
+      "hint": "woman portrait"
+    },
+    {
+      "url": "/images/testimonials/mathew.webp",
+      "hint": "business person"
+    }
   ]
+
 }

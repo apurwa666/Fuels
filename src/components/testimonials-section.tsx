@@ -53,9 +53,15 @@ export function TestimonialsSection() {
                     </blockquote>
                   </CardContent>
                   <div className="flex items-center gap-4 mt-8">
-                    <Avatar className="h-12 w-12 border-2 border-white shadow-md">
-                      <AvatarImage src={testimonial.avatarUrl} alt={testimonial.name} data-ai-hint="person" />
-                      <AvatarFallback className="bg-slate-200 text-slate-600 font-bold">{testimonial.name.charAt(0)}</AvatarFallback>
+                    <Avatar className="h-12 w-12">
+                      <AvatarImage
+                        src={testimonial.avatarUrl}
+                        alt={testimonial.name}
+                        onError={(e) => {
+                          console.log("Image failed:", testimonial.avatarUrl);
+                        }}
+                      />
+                      <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
                     </Avatar>
                     <div>
                       <p className="font-bold text-slate-900 text-base">{testimonial.name}</p>

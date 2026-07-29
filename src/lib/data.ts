@@ -10,6 +10,9 @@ import {
 } from "lucide-react"
 import React from 'react';
 
+import { Blog1Content } from '@/components/blog-content/blog-1';
+import { Blog2Content } from '@/components/blog-content/blog-2';
+import { Blog3Content } from '@/components/blog-content/blog-3';
 import { Blog4Content } from '@/components/blog-content/blog-4';
 import { Blog5Content } from '@/components/blog-content/blog-5';
 import { Blog6Content } from '@/components/blog-content/blog-6';
@@ -24,6 +27,7 @@ export const navLinks: NavLink[] = [
         { href: "/growth-marketing", label: "Growth Marketing" },
       ]
     },
+    { href: "/case-study", label: "Case Study" },
     { href: "/blog", label: "Blog" },
   ]
 
@@ -103,7 +107,7 @@ export const growthServices = [
 
 export const teamMembers: TeamMember[] = placeholders.team.map(member => ({
   name: member.name,
-  title: 'Co-Founder & CEO',
+  title: 'Co-Founder',
   imageUrl: member.url,
   dataAiHint: member.hint,
 }));
@@ -115,74 +119,27 @@ export const emailTemplates: EmailTemplate[] = placeholders.hero.templates.map(t
   dataAiHint: t.hint
 }));
 
-export const caseStudies: CaseStudy[] = [
-  {
-    id: 1,
-    clientName: 'GigaMart',
-    slug: 'gigamart-boosts-sales-300-percent',
-    title: 'How GigaMart boosted sales by 300% with our templates',
-    imageUrl: placeholders.caseStudies[0].banner,
-    excerpt: 'Discover the strategies and email designs that led to a massive revenue increase for this e-commerce giant.',
-    clientInfo: "GigaMart is a leading e-commerce platform facing the challenge of increasing customer lifetime value and driving repeat purchases in a competitive market.",
-    challenge: "Their existing email campaigns were generic and failed to resonate with their diverse customer base.",
-    solution: "By leveraging FuelMails' advanced segmentation and A/B testing features, GigaMart created highly personalized campaigns.",
-    results: "The tailored approach ensured a premium brand experience, leading to a dramatic increase in sales.",
-    stats: [
-      { value: "300%", label: "Increase in Revenue" },
-      { value: "150%", label: "Higher Open Rates" },
-      { value: "200%", label: "Boost in CTR" }
-    ],
-    testimonial: {
-      quote: "FuelMails gave us the tools to finally speak to our customers as individuals.",
-      author: "Marketing Director, GigaMart"
-    },
-    emailImageUrl: placeholders.caseStudies[0].email
-  },
-  {
-    id: 2,
-    clientName: 'Innovate Inc.',
-    slug: 'innovate-inc-increases-user-engagement',
-    title: 'Increasing User Engagement for a Growing SaaS',
-    imageUrl: placeholders.caseStudies[1].banner,
-    excerpt: 'Learn how Innovate Inc. used our targeted campaigns to improve user retention.',
-    clientInfo: "Innovate Inc. struggled with user onboarding and long-term retention.",
-    challenge: "They needed a way to effectively educate and guide users without overwhelming them.",
-    solution: "Using FuelMails' automation workflows, they designed a comprehensive onboarding email sequence.",
-    results: "The campaign was a huge success, seeing a 40% reduction in churn within 60 days.",
-    stats: [
-      { value: "40%", label: "Reduction in Churn" },
-      { value: "50%", label: "Increase in Engagement" },
-      { value: "75%", label: "Higher Feature Adoption" }
-    ],
-    testimonial: {
-      quote: "The automation workflows are a lifesaver. It's like having a customer success manager for every user.",
-      author: "CEO, Innovate Inc."
-    },
-    emailImageUrl: placeholders.caseStudies[1].email
-  },
-];
-
 export const testimonials: Testimonial[] = [
   {
     id: 1,
     quote: "FuelMails transformed our email strategy. The analytics are a game-changer, and our engagement has skyrocketed.",
     name: 'Sarah Johnson',
     title: 'CMO, TechSolutions Inc.',
-    avatarUrl: 'https://picsum.photos/100/100?random=1',
+    avatarUrl: "/images/testimonials/sarah.webp",
   },
   {
     id: 2,
     quote: "The template designer is so intuitive and powerful. We're creating beautiful, on-brand emails in minutes.",
     name: 'David Chen',
     title: 'Founder, The Design Hub',
-    avatarUrl: 'https://picsum.photos/100/100?random=2',
+    avatarUrl: "/images/testimonials/cheng.webp",
   },
   {
     id: 3,
     quote: "Working with FuelMails felt like adding a high-octane growth team to our company overnight. Highly recommended.",
     name: 'Mark Thompson',
     title: 'Director of Growth, E-com Scale',
-    avatarUrl: 'https://picsum.photos/100/100?random=3',
+    avatarUrl: '/images/testimonials/mathew.webp',
   },
 ];
 
@@ -216,12 +173,48 @@ export const faqs: FaqItem[] = [
 
 export const blogPosts: BlogPost[] = [
    {
+    id: 1,
+    slug: 'what-growth-marketing-actually-means',
+    title: 'What Growth Marketing Actually Means (And Why Most Businesses Get It Wrong)',
+    metaTitle: 'What Growth Marketing Actually Means | FuelMails',
+    metaDescription: 'Understand the true definition of growth marketing and avoid common pitfalls.',
+    imageUrl: placeholders.blog[0].url,
+    excerpt: 'Growth marketing is the practice of using data and experimentation to improve every stage a customer moves through.',
+    author: 'FuelMails',
+    date: 'January 5, 2026',
+    content: Blog1Content,
+  },
+  {
+    id: 2,
+    slug: 'the-growth-loop-acquisition-without-retention',
+    title: 'The Growth Loop: Why Acquisition Without Retention Is a Leaky Bucket',
+    metaTitle: 'The Growth Loop: Retention vs. Acquisition | FuelMails',
+    metaDescription: 'Learn why retention is the non-negotiable key to sustainable growth.',
+    imageUrl: placeholders.blog[1].url,
+    excerpt: 'Customer acquisition cost has been rising across nearly every paid channel for years.',
+    author: 'FuelMails',
+    date: 'February 12, 2026',
+    content: Blog2Content,
+  },
+  {
+    id: 3,
+    slug: 'how-to-run-growth-experiments-that-actually-move-revenue',
+    title: 'How to Run Growth Experiments That Actually Move Revenue (Not Just Vanity Metrics)',
+    metaTitle: 'How to Run Growth Experiments | FuelMails',
+    metaDescription: 'A guide to running experiments that impact your bottom line, not just vanity metrics.',
+    imageUrl: placeholders.blog[2].url,
+    excerpt: 'Most teams describe what they do as testing, but very little of it qualifies as an actual experiment.',
+    author: 'FuelMails',
+    date: 'February 19, 2026',
+    content: Blog3Content,
+  },
+  {
     id: 4,
     slug: 'why-email-marketing-still-outperforms-social-media-in-2025',
     title: 'Why Email Marketing Still Outperforms Social Media in 2025',
     metaTitle: 'Email Marketing vs. Social Media: 2025 Data-Backed Stats | FuelMails',
     metaDescription: 'Discover why email marketing delivers a higher ROI than social media in 2025.',
-    imageUrl: placeholders.blog[0].url,
+    imageUrl: placeholders.blog[3].url,
     excerpt: 'A single email can generate more revenue than hundreds of social media posts.',
     author: 'FuelMails',
     date: 'July 5, 2025',
@@ -233,7 +226,7 @@ export const blogPosts: BlogPost[] = [
     title: 'Why Email Marketing is Essential for Your Brand',
     metaTitle: 'Why Email Marketing is Essential for Your Brand | FuelMails',
     metaDescription: 'Learn why email marketing is a must-have for any growing brand.',
-    imageUrl: placeholders.blog[1].url,
+    imageUrl: placeholders.blog[4].url,
     excerpt: 'Email marketing is one of the most reliable drivers of growth for modern businesses.',
     author: 'FuelMails',
     date: 'July 12, 2025',
@@ -245,7 +238,7 @@ export const blogPosts: BlogPost[] = [
     title: 'What to Expect When Hiring an Email Marketing Agency',
     metaTitle: 'Hiring an Email Marketing Agency: What to Expect | FuelMails',
     metaDescription: 'Understand the process and results when partnering with an email agency.',
-    imageUrl: placeholders.blog[2].url,
+    imageUrl: placeholders.blog[5].url,
     excerpt: 'Hiring an email marketing agency is one of the smartest moves for a growing business.',
     author: 'FuelMails',
     date: 'July 20, 2025',
