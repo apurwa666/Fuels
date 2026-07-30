@@ -127,7 +127,7 @@ export function Footer() {
              <div className="flex flex-col space-y-2">
               <h4 className="font-semibold text-foreground">Contact</h4>
               <Link href="/#schedule" className="text-sm text-muted-foreground hover:text-primary transition-colors">Schedule a Demo</Link>
-              <Link href="mailto:fuelmails007@gmail.com" className="text-sm text-muted-foreground hover:text-primary transition-colors">Bishalya.gautam@fuelmails.com</Link>
+              <Link href="mailto:bishalya.gautam@fuelmails.com" className="text-sm text-muted-foreground hover:text-primary transition-colors">Bishalya.gautam@fuelmails.com</Link>
             </div>
           </div>
         </div>
