@@ -128,6 +128,7 @@ export function Footer() {
               <h4 className="font-semibold text-foreground">Contact</h4>
               <Link href="/#schedule" className="text-sm text-muted-foreground hover:text-primary transition-colors">Schedule a Demo</Link>
               <Link href="mailto:bishalya.gautam@fuelmails.com" className="text-sm text-muted-foreground hover:text-primary transition-colors">Bishalya.gautam@fuelmails.com</Link>
+              <Link href="mailto:anish.pantha@fuelmails.com" className="text-sm text-muted-foreground hover:text-primary transition-colors">Anish.pantha@fuelmails.com</Link>
             </div>
           </div>
         </div>
