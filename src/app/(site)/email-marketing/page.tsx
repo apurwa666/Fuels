@@ -1,7 +1,7 @@
 
 "use client"
 
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from "@/components/ui/button"
@@ -12,32 +12,57 @@ import { Card } from '@/components/ui/card'
 import { CheckCircle2, Workflow, Users, BarChart3, ArrowRight } from 'lucide-react'
 import { emailServices, emailTemplates } from '@/lib/data'
 
-// Sub-component for dynamic template images in the carousel
-function CarouselTemplateImage({ template, isHovered }: { template: typeof emailTemplates[0], isHovered: boolean }) {
+/**
+ * Sub-component for the content-aware auto-scrolling template images.
+ * Scrolls from top to bottom based on the image height.
+ */
+function CarouselTemplateImage({ 
+  template, 
+  isActive, 
+  isDragging,
+  onComplete 
+}: { 
+  template: typeof emailTemplates[0], 
+  isActive: boolean,
+  isDragging: boolean,
+  onComplete: () => void 
+}) {
   const containerRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
   const [scrollAmount, setScrollAmount] = useState(0);
+  const [isReady, setIsReady] = useState(false);
 
-  const calculateScroll = () => {
+  const calculateScroll = useCallback(() => {
     if (imgRef.current && containerRef.current) {
       const diff = imgRef.current.offsetHeight - containerRef.current.offsetHeight;
       setScrollAmount(Math.max(0, diff));
+      setIsReady(true);
     }
-  };
+  }, []);
 
   useEffect(() => {
     calculateScroll();
-  }, []);
+    window.addEventListener('resize', calculateScroll);
+    return () => window.removeEventListener('resize', calculateScroll);
+  }, [calculateScroll]);
+
+  // Determine duration based on content length (px / speed)
+  const duration = Math.max(5, scrollAmount / 150);
 
   return (
-    <div ref={containerRef} className="relative w-full h-full overflow-hidden rounded-2xl">
+    <div ref={containerRef} className="relative w-full h-full overflow-hidden rounded-2xl bg-card/50 pointer-events-none">
       <motion.div
         className="absolute top-0 left-0 w-full"
-        animate={{ y: isHovered ? -scrollAmount : 0 }}
+        initial={{ y: 0 }}
+        animate={{ y: isActive && isReady && !isDragging ? -scrollAmount : 0 }}
         transition={{ 
-          duration: isHovered ? Math.max(4, scrollAmount / 150) : 3, 
-          ease: isHovered ? "linear" : [0.4, 0, 0.2, 1],
-          delay: 0 // Removed delay for immediate response
+          duration: isActive && !isDragging ? duration : 0.8, 
+          ease: isActive && !isDragging ? "linear" : [0.4, 0, 0.2, 1],
+        }}
+        onAnimationComplete={() => {
+          if (isActive && isReady && !isDragging && scrollAmount > 0) {
+            onComplete();
+          }
         }}
       >
         <Image 
@@ -46,11 +71,12 @@ function CarouselTemplateImage({ template, isHovered }: { template: typeof email
           alt={template.name} 
           width={600}
           height={2400}
-          className="w-full h-auto object-cover object-top" 
-          onLoadingComplete={calculateScroll}
+          className="w-full h-auto object-cover object-top select-none pointer-events-none" 
+          onLoad={calculateScroll}
           data-ai-hint="email template"
           priority
           unoptimized
+          draggable={false}
         />
       </motion.div>
     </div>
@@ -58,14 +84,54 @@ function CarouselTemplateImage({ template, isHovered }: { template: typeof email
 }
 
 export default function EmailMarketingPage() {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const displayTemplates = emailTemplates.slice(0, 6);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const displayTemplates = emailTemplates;
+
+  const nextTemplate = useCallback(() => {
+    setActiveIndex((prev) => (prev + 1) % displayTemplates.length);
+  }, [displayTemplates.length]);
+
+  const prevTemplate = useCallback(() => {
+    setActiveIndex((prev) => (prev - 1 + displayTemplates.length) % displayTemplates.length);
+  }, [displayTemplates.length]);
+
+  // When a template finishes its vertical scroll
+  const handleTemplateComplete = () => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    
+    // Wait 0.5s after reaching bottom before changing positions
+    if (!isDragging) {
+      timerRef.current = setTimeout(nextTemplate, 500);
+    }
+  };
+
+  // Logic to handle "dragging the position"
+  const handleDragEnd = (event: any, info: any) => {
+    setIsDragging(false);
+    const threshold = 50; 
+    const velocity = info.velocity.x;
+    
+    if (info.offset.x < -threshold || velocity < -300) {
+      nextTemplate();
+    } else if (info.offset.x > threshold || velocity > 300) {
+      prevTemplate();
+    }
+  };
+
+  // Cleanup timers
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, []);
 
   return (
     <div className="bg-background">
-      <section className="relative min-h-[70vh] lg:min-h-[90vh] flex flex-col justify-center pt-24 pb-8 sm:pb-12 lg:pb-16 overflow-hidden bg-background">
+      <section className="relative min-h-[85vh] lg:min-h-screen flex flex-col justify-center pt-24 pb-12 overflow-hidden bg-background">
         <div className="absolute inset-0 -z-10 pointer-events-none">
-          <div className="absolute top-[45%] right-[22%] w-[600px] h-[400px] bg-accent/30 rounded-full blur-[100px] opacity-40" />
+          <div className="absolute top-[45%] right-[22%] w-[800px] h-[400px] bg-accent/30 rounded-full blur-[100px] opacity-40" />
           <div className="absolute bottom-[10%] left-[10%] w-[500px] h-[300px] bg-accent/10 rounded-full blur-[100px] opacity-20" />
         </div>
 
@@ -79,7 +145,7 @@ export default function EmailMarketingPage() {
               viewport={{ once: true }}
             >
               <MotionWrapper variants={FADE_IN_UP} className="flex flex-col items-center lg:items-start">
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-accent/40 bg-accent/10 text-accent font-headline font-bold text-[12.5px] tracking-[0.14em] uppercase mb-6 sm:mb-8">
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-accent/40 bg-accent/10 text-accent font-headline font-bold text-[12.5px] tracking-[0.14em] uppercase mb-4 sm:mb-6">
                   <span className="w-1.5 h-1.5 rounded-full bg-accent shadow-[0_0_8px_hsl(var(--accent))]" />
                   Retention Systems
                 </div>
@@ -97,74 +163,105 @@ export default function EmailMarketingPage() {
               </MotionWrapper>
             </MotionWrapper>
 
-            <MotionWrapper
-              variants={FADE_IN_UP}
-              className="relative hidden md:flex items-center justify-center mt-6 sm:mt-8 lg:mt-0"
-            >
-              <div className="relative w-full max-w-[750px] aspect-square flex items-center justify-center">
-                <motion.div 
-                  animate={{ scale: [1, 1.2, 1], opacity: [0.6, 1, 0.6] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute w-40 h-40 rounded-full bg-accent/20 blur-[80px] z-0 pointer-events-none"
-                />
+            {/* 3D Stacked Carousel with Fixed Modulo Overlap */}
+            <div className="relative flex items-center justify-center mt-12 lg:mt-0 h-[480px] sm:h-[600px] w-full">
+              <div 
+                className="relative w-full h-full flex items-center justify-center"
+                style={{ perspective: '1500px', transformStyle: 'preserve-3d' }}
+              >
+                {displayTemplates.map((template, index) => {
+                  const offset = (index - activeIndex + displayTemplates.length) % displayTemplates.length;
+                  
+                  let x = 0;
+                  let rotateY = 0;
+                  let scale = 0.6;
+                  let zIndex = 0;
+                  let opacity = 0;
+                  let pointerEvents: "auto" | "none" = "none";
 
-                <div className="absolute inset-0 flex items-center justify-center" style={{ perspective: '1600px' }}>
-                  <motion.div 
-                    className="relative w-full h-full flex items-center justify-center"
-                    style={{ transformStyle: 'preserve-3d' }}
-                    animate={{ rotateY: 360 }}
-                    transition={{ duration: 45, repeat: Infinity, ease: "linear" }}
-                  >
-                    {displayTemplates.map((template, idx) => {
-                      const angle = (idx * 60); 
-                      const radius = 250; 
+                  // Logic for 3-at-a-time stack positions with strict z-index handling
+                  if (offset === 0) {
+                    // Center (Focused)
+                    x = 0;
+                    rotateY = 0;
+                    scale = 1;
+                    zIndex = 20; // Highest
+                    opacity = 1;
+                    pointerEvents = "auto";
+                  } else if (offset === 1) {
+                    // Right (Angled In)
+                    x = "75%";
+                    rotateY = -45;
+                    scale = 0.82;
+                    zIndex = 10;
+                    opacity = 0.5;
+                    pointerEvents = "auto";
+                  } else if (offset === displayTemplates.length - 1) {
+                    // Left (Angled In)
+                    x = "-75%";
+                    rotateY = 45;
+                    scale = 0.82;
+                    zIndex = 10;
+                    opacity = 0.5;
+                    pointerEvents = "auto";
+                  } else {
+                    // Hidden states - prevent them from flying through the middle
+                    opacity = 0;
+                    zIndex = 0;
+                    x = offset < displayTemplates.length / 2 ? "150%" : "-150%";
+                  }
+
+                  return (
+                    <motion.div
+                      key={template.id}
+                      drag="x"
+                      dragConstraints={{ left: 0, right: 0 }}
+                      dragElastic={0.2}
+                      onDragStart={() => {
+                        setIsDragging(true);
+                        if (timerRef.current) clearTimeout(timerRef.current);
+                      }}
+                      onDragEnd={handleDragEnd}
+                      animate={{
+                        x,
+                        rotateY,
+                        scale,
+                        zIndex,
+                        opacity,
+                      }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 260,
+                        damping: 26,
+                        mass: 1,
+                      }}
+                      className="absolute w-44 h-72 sm:w-60 sm:h-[460px] lg:w-72 lg:h-[500px] rounded-3xl overflow-hidden shadow-2xl border border-white/5 bg-card cursor-grab active:cursor-grabbing select-none"
+                      style={{
+                        pointerEvents,
+                        backfaceVisibility: 'hidden',
+                        transformStyle: 'preserve-3d',
+                      }}
+                    >
+                      <CarouselTemplateImage 
+                        template={template} 
+                        isActive={offset === 0}
+                        isDragging={isDragging}
+                        onComplete={handleTemplateComplete} 
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
                       
-                      return (
-                        <div
-                          key={template.id}
-                          className="absolute pointer-events-auto"
-                          style={{
-                            transform: `rotateY(${angle}deg) translateZ(${radius}px)`,
-                            transformStyle: 'preserve-3d',
-                            zIndex: hoveredIndex === idx ? 100 : idx
-                          }}
-                          onMouseEnter={() => setHoveredIndex(idx)}
-                          onMouseLeave={() => setHoveredIndex(null)}
-                        >
-                          <motion.div
-                            className="relative w-36 h-72 sm:w-[215px] sm:h-[440px] rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-card cursor-pointer"
-                            animate={{ 
-                                y: hoveredIndex === idx ? -50 : 0,
-                                scale: hoveredIndex === idx ? 1.05 : 1,
-                                rotateY: hoveredIndex === idx ? 5 : 0
-                            }}
-                            transition={{ 
-                              type: "spring", 
-                              stiffness: 400, 
-                              damping: 40,
-                              mass: 0.8
-                            }}
-                          >
-                            <CarouselTemplateImage template={template} isHovered={hoveredIndex === idx} />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent pointer-events-none" />
-                            <AnimatePresence>
-                              {hoveredIndex === idx && (
-                                <motion.div 
-                                  initial={{ opacity: 0 }}
-                                  animate={{ opacity: 1 }}
-                                  exit={{ opacity: 0 }}
-                                  className="absolute inset-0 border-2 border-accent/50 rounded-2xl shadow-[inset_0_0_30px_rgba(108,124,240,0.4)] pointer-events-none"
-                                />
-                              )}
-                            </AnimatePresence>
-                          </motion.div>
-                        </div>
-                      );
-                    })}
-                  </motion.div>
-                </div>
+                      {offset === 0 && (
+                          <motion.div 
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          className="absolute inset-0 border-2 border-accent/30 rounded-3xl shadow-[inset_0_0_50px_rgba(108,124,240,0.2)] pointer-events-none"
+                        />
+                      )}
+                    </motion.div>
+                  );
+                })}
               </div>
-            </MotionWrapper>
+            </div>
           </div>
         </div>
         
