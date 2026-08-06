@@ -64,7 +64,7 @@ export function HeroSection() {
     useEffect(() => {
       const updateRadius = () => {
         if (window.innerWidth < 640) {
-          setRadius(130); // Tighter radius for mobile to match iPad spacing feel
+          setRadius(160); // Increased radius to accommodate larger mobile templates
         } else if (window.innerWidth < 1024) {
           setRadius(210); // Refined tablet radius
         } else {
@@ -157,7 +157,7 @@ export function HeroSection() {
                                   onMouseLeave={() => setHoveredIndex(null)}
                                 >
                                   <motion.div
-                                    className="relative w-24 h-48 sm:w-[215px] sm:h-[440px] rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-card cursor-pointer"
+                                    className="relative w-32 h-64 sm:w-[215px] sm:h-[440px] rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-card cursor-pointer"
                                     animate={{ 
                                         y: hoveredIndex === idx ? -50 : 0,
                                         scale: hoveredIndex === idx ? 1.05 : 1,
