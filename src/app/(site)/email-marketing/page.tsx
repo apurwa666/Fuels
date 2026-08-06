@@ -235,7 +235,7 @@ export default function EmailMarketingPage() {
                         damping: 26,
                         mass: 1,
                       }}
-                      className="absolute w-44 h-72 sm:w-60 sm:h-[460px] lg:w-72 lg:h-[500px] rounded-3xl overflow-hidden shadow-2xl border border-white/5 bg-card cursor-grab active:cursor-grabbing select-none"
+                      className="absolute w-44 h-96 sm:w-60 sm:h-[460px] lg:w-72 lg:h-[500px] rounded-3xl overflow-hidden shadow-2xl border border-white/5 bg-card cursor-grab active:cursor-grabbing select-none"
                       style={{
                         pointerEvents,
                         backfaceVisibility: 'hidden',
