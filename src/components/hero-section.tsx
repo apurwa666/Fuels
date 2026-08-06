@@ -157,7 +157,7 @@ export function HeroSection() {
                                   onMouseLeave={() => setHoveredIndex(null)}
                                 >
                                   <motion.div
-                                    className="relative w-32 h-77 sm:w-[215px] sm:h-[440px] rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-card cursor-pointer"
+                                    className="relative w-32 h-72 sm:w-[215px] sm:h-[440px] rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-card cursor-pointer"
                                     animate={{ 
                                         y: hoveredIndex === idx ? -50 : 0,
                                         scale: hoveredIndex === idx ? 1.05 : 1,
